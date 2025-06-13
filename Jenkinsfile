@@ -8,8 +8,8 @@ pipeline{
     }
     stage("Backup_and_audit"){
       steps{
-        chmod +x Backup_and_audit.sh
-        ./Backup_and_audit.sh
+        sh 'chmod +x Backup_and_audit.sh'
+        sh './Backup_and_audit.sh'
       }
     }
   }
