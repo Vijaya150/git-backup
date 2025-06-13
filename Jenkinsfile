@@ -12,3 +12,5 @@ pipeline{
         ./Backup_and_audit.sh
       }
     }
+  }
+}
