@@ -1,30 +1,32 @@
 pipeline {
-  agent any
-         
-  environment {
+    agent any
+
+    environment {
         BACKUP_DIR = '/var/backups/git-repos'
-    
-  stages{
-    stage("git checkout"){
-      steps{
-        git "https://github.com/Vijaya150/git-backup.git"
-      }
     }
-    
-    stage("Backup_and_audit"){
-      steps{
-        sh 'chmod +x Backup_and_audit.sh'
-        sh './Backup_and_audit.sh'
-      }
-    }
-    
-    stage('Archive Artifacts') {
+
+    stages {
+        stage("Git Checkout") {
             steps {
-                // Archive backups and audit logs from /var/backups/git-repos
-                archiveArtifacts artifacts: '/var/backups/git-repos/*.tar.gz', allowEmptyArchive: true
-                archiveArtifacts artifacts: '/var/backups/git-repos/audit_*.txt', allowEmptyArchive: true
+                git "https://github.com/Vijaya150/git-backup.git"
             }
         }
+
+        stage("Backup and Audit") {
+            steps {
+                sh 'chmod +x Backup_and_audit.sh'
+                sh './Backup_and_audit.sh'
+            }
+        }
+
+        stage("Archive Artifacts") {
+            steps {
+                // Archive backups and audit logs
+                archiveArtifacts artifacts: "${BACKUP_DIR}/*.tar.gz", allowEmptyArchive: true
+                archiveArtifacts artifacts: "${BACKUP_DIR}/audit_*.txt", allowEmptyArchive: true
+            }
+        }
+    }
 
     post {
         always {
@@ -38,6 +40,4 @@ pipeline {
             echo '❌ Backup or audit failed. Check the logs for more details.'
         }
     }
-}
-  }
 }
