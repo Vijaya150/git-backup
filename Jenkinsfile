@@ -16,6 +16,10 @@ pipeline{
             steps {
                 sh 'cp /var/backups/git-repos/*.tar.gz . || true'
                 sh 'cp /var/backups/git-repos/*.txt . || true'
+             
+              // List files to verify what got copied
+                echo '📁 Listing copied artifacts:'
+                sh 'ls -lh *.tar.gz *.txt || echo "No files found"'
             }
         }
   }
