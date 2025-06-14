@@ -11,7 +11,8 @@ while read -r gitlink;do
                 echo "link is empty"
         continue
         fi
-           repo_name=`(basename "$gitlink" .git)`
+
+                repo_name=(basename "$gitlink" .git)
 
         if [ -d "$repo_name" ];then
                 cd "$repo_name" 
@@ -23,19 +24,17 @@ while read -r gitlink;do
                 echo "git cloned"
         fi
 
- cp -r "$repo_name" "$TEMP_DIR/"
+tar -czf ${BACKUP_DIR}/${repo_name}_$(date "+%Y%m%d").tar.gz "$repo_name"
+echo "tarball backup is done"
 
-    # Collect audit logs in one file
-    if [ -d "$repo_name/.git" ]; then
-        cd "$repo_name" || continue
-        git log --since=1.day >> "${BACKUP_DIR}/audit_$(date "+%Y%m%d").txt"
-        echo "Git logs collected"
-        cd ..
-    else
-        echo "Git repo not found"
-    fi
+        if [ -d "$repo_name/.git" ];then
+                cd "$repo_name" || continue
+                git log --since=1.day > "${BACKUP_DIR}/audit_${repo_name}_$(date "+%Y%m%d").txt"
 
-done < "$GITREPO"
+               echo "git logs collected"
+               cd ..
+       else
+               echo "Git repo not found"
+        fi
 
-# Tar all repos into one file
-tar -czf "${BACKUP_DIR}/git-tarfile_$(date "+%Y%m%d").tar.gz" -C "$TEMP_DIR" .
+done<"$GITREPO". 
