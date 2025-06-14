@@ -23,17 +23,15 @@ pipeline {
     steps {
         sh 'cp /var/backups/git-repos/*.tar.gz . || true'
         sh 'cp /var/backups/git-repos/audit_*.txt . || true'
+        sh 'ls -lh *.tar.gz audit_*.txt || echo "No files found to archive."'
     }
 }
-
-
-        stage("Archive Artifacts") {
-            steps {
-                // Archive backups and audit logs
-                archiveArtifacts artifacts: "${BACKUP_DIR}/*.tar.gz", allowEmptyArchive: true
-                archiveArtifacts artifacts: "${BACKUP_DIR}/audit_*.txt", allowEmptyArchive: true
-            }
-        }
+     stage('Archive Artifacts') {
+    steps {
+        archiveArtifacts artifacts: '*.tar.gz', allowEmptyArchive: true
+        archiveArtifacts artifacts: 'audit_*.txt', allowEmptyArchive: true
+    }
+}
     }
 
     post {
