@@ -3,8 +3,7 @@ pipeline {
          
   environment {
         BACKUP_DIR = '/var/backups/git-repos'
-
-  
+    
   stages{
     stage("git checkout"){
       steps{
@@ -39,4 +38,6 @@ pipeline {
             echo '❌ Backup or audit failed. Check the logs for more details.'
         }
     }
+}
+  }
 }
