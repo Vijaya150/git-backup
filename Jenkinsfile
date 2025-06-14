@@ -12,10 +12,11 @@ pipeline{
         sh './Backup_and_audit.sh'
       }
     }
-    stage('Archive Artifacts') {
+    stage('Copy Artifacts to Workspace') {
             steps {
-              archiveArtifacts artifacts: '"${BACKUP_DIR}/*.tar.gz, ${BACKUP_DIR}/*.txt"', followSymlinks: false
+                sh 'cp /var/backups/git-repos/*.tar.gz . || true'
+                sh 'cp /var/backups/git-repos/*.txt . || true'
             }
-    }
+        }
   }
 }
