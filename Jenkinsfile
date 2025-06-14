@@ -19,6 +19,14 @@ pipeline {
             }
         }
 
+     stage("Copy to Workspace for Archiving") {
+    steps {
+        sh 'cp /var/backups/git-repos/*.tar.gz . || true'
+        sh 'cp /var/backups/git-repos/audit_*.txt . || true'
+    }
+}
+
+
         stage("Archive Artifacts") {
             steps {
                 // Archive backups and audit logs
