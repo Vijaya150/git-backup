@@ -12,7 +12,7 @@ while read -r gitlink;do
         continue
         fi
 
-                repo_name=(basename "$gitlink" .git)
+                repo_name=`(basename "$gitlink" .git)`
 
         if [ -d "$repo_name" ];then
                 cd "$repo_name" 
