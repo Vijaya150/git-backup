@@ -40,10 +40,10 @@ pipeline {
             sh 'cat /var/backups/git-repos/audit_*.txt || echo "No audit logs found."'
         }
         success {
-            echo '✅ Backup and audit completed successfully.'
+            echo 'Backup and audit completed successfully.'
         }
         failure {
-            echo '❌ Backup or audit failed. Check the logs for more details.'
+            echo  'Backup or audit failed. Check the logs for more details.'
         }
     }
 }
